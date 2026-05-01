@@ -4,6 +4,8 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import * as SecureStore from 'expo-secure-store';
 import { auth } from '../config/firebase';
 
+const DEMO_MODE = false; // Set true untuk demo biometric
+
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -21,18 +23,27 @@ export function AuthProvider({ children }) {
             const token = await u.getIdToken();
             await SecureStore.setItemAsync('auth_token', token);
         } else {
-            await SecureStore.deleteItemAsync('auth_token');
-        }
+             if (!DEMO_MODE) {
+                await SecureStore.deleteItemAsync(
+                'auth_token'
+                );
+             }
+            }
         setLoading(false);
     });
 
     return unsub;
     }, []);
 
- const logout = async () => {
-   await signOut(auth);
-   await SecureStore.deleteItemAsync('auth_token');
- };
+const logout = async () => {
+  await signOut(auth);
+
+  if (!DEMO_MODE) {
+    await SecureStore.deleteItemAsync(
+      'auth_token'
+    );
+  }
+};
 
  useEffect(() => {
   const subscription = AppState.addEventListener(
