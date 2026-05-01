@@ -58,7 +58,7 @@ const logout = async () => {
           const diff =
             Date.now() - backgroundTimeRef.current;
 
-          if (diff >= 10000) { 
+          if (diff >= 300000) { 
             await logout();
 
             Alert.alert(
