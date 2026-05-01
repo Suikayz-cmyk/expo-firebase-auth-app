@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, Alert } from 'react-native';
+import { View, TextInput, Button, Text, Alert, StyleSheet } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
@@ -47,9 +47,18 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  return (
-    <View style={{ padding: 20 }}>
+ return (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        Welcome Back
+      </Text>
+
+      <Text style={styles.subtitle}>
+        Login untuk melanjutkan
+      </Text>
+
       <TextInput
+        style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
@@ -57,26 +66,89 @@ export default function LoginScreen({ navigation }) {
       />
 
       <TextInput
+        style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
 
-      <Button title="Login" onPress={handleLogin} />
+      <View style={styles.buttonGap}>
+        <Button
+          title="Login"
+          onPress={handleLogin}
+        />
+      </View>
 
-      <Button
-        title="Login dengan Biometric"
-        onPress={handleBiometric}
-      />
+      <View style={styles.buttonGap}>
+        <Button
+          title="Login dengan Biometric"
+          onPress={handleBiometric}
+        />
+      </View>
 
-      <Text onPress={() => navigation.navigate('Register')}>
+      <Text
+        style={styles.link}
+        onPress={() =>
+          navigation.navigate(
+            'Register'
+          )
+        }
+      >
         Belum punya akun? Daftar
       </Text>
 
-      <Text onPress={() => navigation.navigate('ForgotPassword')}>
+      <Text
+        style={styles.link}
+        onPress={() =>
+          navigation.navigate(
+            'ForgotPassword'
+          )
+        }
+      >
         Lupa password?
       </Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 24,
+    backgroundColor: '#fff',
+  },
+
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+
+  subtitle: {
+    fontSize: 14,
+    color: 'gray',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+  },
+
+  buttonGap: {
+    marginBottom: 12,
+  },
+
+  link: {
+    marginTop: 10,
+    textAlign: 'center',
+    color: '#2563eb',
+  },
+});

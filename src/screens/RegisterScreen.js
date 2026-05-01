@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, Text } from 'react-native';
+import { View, TextInput, Button, Alert, Text, StyleSheet} from 'react-native';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification
@@ -30,9 +30,18 @@ export default function RegisterScreen({ navigation }) {
     }
   };
 
-  return (
-    <View style={{ padding: 20 }}>
+    return (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        Create Account
+      </Text>
+
+      <Text style={styles.subtitle}>
+        Daftar akun baru untuk melanjutkan
+      </Text>
+
       <TextInput
+        style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
@@ -40,20 +49,76 @@ export default function RegisterScreen({ navigation }) {
       />
 
       <TextInput
+        style={styles.input}
         placeholder="Password"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={
+          setPassword
+        }
         secureTextEntry
       />
 
-      <Button
-        title="Register"
-        onPress={handleRegister}
-      />
+      <View style={styles.buttonGap}>
+        <Button
+          title="Register"
+          onPress={
+            handleRegister
+          }
+        />
+      </View>
 
-      <Text onPress={() => navigation.goBack()}>
+      <Text
+        style={styles.link}
+        onPress={() =>
+          navigation.goBack()
+        }
+      >
         Sudah punya akun? Login
       </Text>
     </View>
   );
 }
+
+const styles =
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent:
+        'center',
+      padding: 24,
+      backgroundColor:
+        '#fff',
+    },
+
+    title: {
+      fontSize: 28,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+
+    subtitle: {
+      fontSize: 14,
+      color: 'gray',
+      textAlign: 'center',
+      marginBottom: 24,
+    },
+
+    input: {
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 8,
+      padding: 12,
+      marginBottom: 12,
+    },
+
+    buttonGap: {
+      marginBottom: 12,
+    },
+
+    link: {
+      textAlign: 'center',
+      marginTop: 10,
+      color: '#2563eb',
+    },
+  });
